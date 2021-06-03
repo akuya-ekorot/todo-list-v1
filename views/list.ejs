@@ -1,23 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The day today</title>
+
+    <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
-    <h1><%= kindOfDay %></h1>
 
-    <ul>
-        <li>Buy food</li>
-        <li>Cook food</li>
-        <li>Eat food</li>
-    </ul>
+    <div class="box" id="heading">
+        <h1>
+            <%= kindOfDay %>
+        </h1>
+    </div>
 
-    <form action="/" method="POST">
-        <input type="text" name="item" placeholder="Add a task">
-        <button type="submit">Add</button>
-    </form>
+
+    <div class="box">
+        <% newList.forEach(element => { %>
+        <div class="item">
+            <input type="checkbox">
+            <p>
+                <%= element %>
+            </p>
+        </div>
+        <% }); %>
+        <form class="item" action="/" method="POST">
+            <input type="text" name="item" placeholder="Add a task" aria-autocomplete="off">
+            <button type="submit">+</button>
+        </form>
+    </div>
+
 </body>
+
 </html>
