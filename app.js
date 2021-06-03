@@ -1,43 +1,66 @@
 const express = require('express');
-
 const app = express();
+
+
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({
     extended: true
 }));
 app.use(express.static("public"));
 
-var items = ["Buy food", "Cook food", "Eat food"];
-var item = "";
+
+let items = ["Buy food", "Cook food", "Eat food"];
+let workItems = [];
+
+
+let today = new Date();
+let options = {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+};
+let day = today.toLocaleDateString("en-US", options);
 
 
 app.get("/", (req, res) => {
-
-    var today = new Date();
-
-    var options = {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-    };
-
-    var day = today.toLocaleDateString("en-US", options);
-
     res.render("list", {
-        kindOfDay: day,
+        listTitle: day,
         newList: items
     });
 });
 
 
+app.get("/work", (req, res) => {
+    res.render("list", {
+        listTitle: "Work List",
+        newList: workItems
+    });
+});
+
+
+app.get("/about", (req, res) => {
+    res.render("about");
+});
+
+
 app.post("/", (req, res) => {
-    item = req.body.item;
-    items.push(item);
-    res.redirect("/");
+    let item = req.body.item;
+    let list = req.body.list;
+
+    if (list === day) {
+        console.log(list);
+        items.push(item);
+        res.redirect("/");
+    } else {
+        console.log(list);
+        workItems.push(item);
+        res.redirect("/work");
+    } 
 });
 
 
 app.listen(process.env.PORT || 3000, () => {
     console.log("Server started");
 });
+
